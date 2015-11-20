@@ -1,8 +1,8 @@
 import numpy as np
 
-from ...particle_src.particle import Particles
-from ...grid_src.grid import grid
-from ...snap_src.io.LoadSnap import load_snap
+from ..particle_src.particle import Particles
+from ..grid_src.grid import grid
+from .LoadSnap import load_snap
 from .analysis import Analysis
 
 

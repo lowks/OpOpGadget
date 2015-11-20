@@ -4,9 +4,9 @@ from scipy.interpolate import UnivariateSpline
 from scipy.linalg import eigh
 import copy
 
-from ...particle_src.particle import  Particles
-from ...snap_src.io.LoadSnap import load_snap
-from ...utility_src.utility import nparray_check, Continue_check
+from ..particle_src.particle import  Particles
+from .LoadSnap import load_snap
+from ..utility_src.utility import nparray_check, Continue_check
 
 
 

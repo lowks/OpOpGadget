@@ -1,8 +1,8 @@
 import struct
 
 
-from ...utility_src import utility
-from ...particle_src.particle import Particles
+from ..utility_src import utility
+from ..particle_src.particle import Particles
 
 
 #ok funge
