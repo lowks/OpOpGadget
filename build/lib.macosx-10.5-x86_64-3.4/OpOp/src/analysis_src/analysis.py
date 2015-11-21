@@ -4,11 +4,10 @@ from scipy.interpolate import UnivariateSpline
 from scipy.linalg import eigh
 import copy
 
-from .src.particle_src.particle import  Particles
-from .src.snap_src.LoadSnap import load_snap
-from .src.utility_src.utility import nparray_check, Continue_check
-from .src.grid_src.grid import grid
-
+from ..particle_src.particle import  Particles
+from ..io_src.LoadSnap import load_snap
+from ..utility_src.utility import nparray_check, Continue_check
+from ..grid_src.grid import grid
 
 
 

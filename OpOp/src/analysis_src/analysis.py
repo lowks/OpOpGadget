@@ -4,11 +4,10 @@ from scipy.interpolate import UnivariateSpline
 from scipy.linalg import eigh
 import copy
 
-from .src.particle_src.particle import  Particles
-from .src.snap_src.LoadSnap import load_snap
-from .src.utility_src.utility import nparray_check, Continue_check
-from .src.grid_src.grid import grid
-
+from ..particle_src.particle import  Particles
+from ..io_src.LoadSnap import load_snap
+from ..utility_src.utility import nparray_check, Continue_check
+from ..grid_src.grid import grid
 
 
 
@@ -138,7 +137,20 @@ class Analysis:
         return tdyn
 
     def softening_scale(self,mq=70,auto=True,r=None,dens=None,mass=None,kernel='Gadget'):
-
+        """
+        Calculate the optimal softening scale following Dehnen, 2012 eps=cost*a(dens)*N^-0.2. The output will be in unit
+        of r. If Auto==True, r and dens will be not considered.
+        :param mq: Mass fraction where calcualte the softening_scale.
+        :param auto: If True calculate the r-dens gride using the grid and Profile class
+                wit 512 points from 0.001*rq to 10*rq.
+        :param r: Array with the sampling radii.
+        :param dens: Array with the density at the sampling radii. Its unity need to be the same of mass/r^3
+        :param mass: Total mass of the system, the method will calculate in automatic the fraction mq/100*mass
+        :param kernel: Kernel to use. Different kernel have different constant C. The implemented kernels are:
+                        -spline: generic cubic spline (as in Dehnen, 2012)
+                        -Gadget: to calculate the softening_scale using the spline kernel of Gadget2
+        :return: the softening scale.
+        """
         opt_dict={'Gadget':0.698352, 'spline':0.977693}
         rq=self.qmass(mq)
 
