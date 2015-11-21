@@ -104,12 +104,12 @@ ext_modules=[df_c_ext,model_c_ext,genmod_c_ext]
 
 setup(
 		name='OpOpGadget',
-		version='0.1.5',
+		version='0.1.7',
 		author='Giuliano Iorio',
 		author_email='giuliano.iorio@unibo.it',
 		url='http://github.com/iogiul/OpOp',
 		package_dir={'OpOp/src/': ''},
-		packages=['OpOp', 'OpOp/src/df_src','OpOp/src/grid_src','OpOp/src/model_src','OpOp/src/particle_src','OpOp/src/snap_src','OpOp/src/utility_src'],
+		packages=['OpOp', 'OpOp/src/df_src','OpOp/src/grid_src','OpOp/src/model_src','OpOp/src/particle_src', 'OpOp/src/analysis_src' ,'OpOp/src/io_src','OpOp/src/utility_src'],
 		install_requires=['numpy>=1.9','scipy>=0.16','matplotlib','astropy>=1'],
 		ext_modules=ext_modules
 

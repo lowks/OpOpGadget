@@ -4,11 +4,10 @@ from scipy.interpolate import UnivariateSpline
 from scipy.linalg import eigh
 import copy
 
-from ..particle_src.particle import  Particles
-from .LoadSnap import load_snap
-from ..utility_src.utility import nparray_check, Continue_check
-
-
+from .src.particle_src.particle import  Particles
+from .src.snap_src.LoadSnap import load_snap
+from .src.utility_src.utility import nparray_check, Continue_check
+from .src.grid_src.grid import grid
 
 
 
@@ -138,16 +137,36 @@ class Analysis:
 
         return tdyn
 
-    def intp_dist(self,mq=None,minrad=None,maxrad=None,type=None):
-        """
-        Interparticle Distance
-        :param mq:
-        :param minrad:
-        :param maxrad:
-        :param type:
-        :return:
-        """
-        return 0
+    def softening_scale(self,mq=70,auto=True,r=None,dens=None,mass=None,kernel='Gadget'):
+
+        opt_dict={'Gadget':0.698352, 'spline':0.977693}
+        rq=self.qmass(mq)
+
+        if auto==True:
+            prof=Profile(self.p,Ngrid=512,xmin=0.001*rq,xmax=10*rq,kind='lin')
+            r=prof.grid.gx
+            dens=prof.dens
+
+
+
+        dens_spline=UnivariateSpline(r, dens, k=1,s=0,ext=1)
+        der_dens=dens_spline.derivative()
+
+
+
+
+        derdens=der_dens(r)
+        ap=UnivariateSpline(r, r*r*dens*derdens*derdens, k=1,s=0,ext=1)
+        bp=UnivariateSpline(r, r*r*dens*dens, k=1,s=0,ext=1)
+
+        B=bp.integral(0,rq)
+        A=ap.integral(0,rq)/(mass*mq/100.)
+        C=(B/(A))**(1/5)
+
+        cost=opt_dict[kernel]
+        N=len(self.p.Id)**(1/5)
+
+        return C*cost/N
 
     @staticmethod
     def qradius_ext(radius_array,mass_array,q,safe_mode=True):
@@ -407,6 +426,57 @@ class Analysis:
         return np.sum(lx),np.sum(ly),np.sum(lz)
 
 
+class Profile:
+
+    def __init__(self,particles=None, type=None, center=False, mq=98,  Ngrid=512, xmin=None, xmax=None, kind='log',**kwargs):
+
+        #Check input
+        if 'filename' in kwargs: p=load_snap(kwargs['filename'])
+        elif isinstance(particles,Particles): p=particles
+        else: raise IOError('Incorrect particles or filename')
+
+        #center
+        if center==True:
+            a=Analysis(p,safe=False)
+            a.center(mq=mq, single=True)
+        else:
+            p.setrad()
+            p.setvelt()
+
+        #extract arrays
+        if type is None:
+            self.pos=p.Pos[:]
+            self.vel=p.Vel[:]
+            self.rad=p.Radius[:]
+            self.vel_tot=p.Vel_tot[:]
+            self.mass=p.Mass[:]
+
+        elif isinstance(type,int):
+            if p.header['Nall'][type]!=0: idx_type=p.Type==type
+            else:   raise ValueError('Type %i not present in particles'%type)
+
+            self.pos=p.Pos[idx_type]
+            self.vel=p.Vel[idx_type]
+            self.rad=p.Radius[idx_type]
+            self.vel_tot=p.Vel_tot[idx_type]
+            self.mass=p.Mass[idx_type]
+
+        else: raise ValueError('type need to be None or an integer')
+
+        #define grid
+        self.Ngrid=Ngrid
+        if xmin is None: self.xmin=np.min(self.rad)
+        else: self.xmin=xmin
+        if xmax is None: self.xmax=np.max(self.rad)
+        else: self.xmax=xmax
+        self.kind=kind
+        self.grid=grid(N=self.Ngrid, type=self.kind, min=self.xmin, max=self.xmax )
+        self.grid.setvol()
+        self.grid.setsup()
+
+        self.massbin=np.histogram(self.rad,bins=self.grid.gedge,weights=self.mass)[0]
+        self.masscum=self.massbin.cumsum()
+        self.dens=self.massbin/self.grid.g_vol
 
 
 '''
