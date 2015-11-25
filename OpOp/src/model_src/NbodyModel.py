@@ -86,7 +86,7 @@ class NbodyModel():
         self._set_particles()
         for c in self.components: self._set_grid(c)
 
-    def generate(self,use_c=True):
+    def generate(self, use_c=True):
         """
         Generate Position and velocities.
         The position are randomly picken from the cumulative mass distribution, while
@@ -126,6 +126,7 @@ class NbodyModel():
         for c in self.components:
             mindex_ini=self.h.header['Ntot']
             self.h.header['Npart'][0][int(c['type'])]+=int(c['npart'])
+            self.h.header['Massarr'][int(c['type'])]=int(c['npart'])*c['model'].Mmax/Nrand
             self.h.header['Ntot']+=int(c['npart'])
             mindex_ini_fin=self.h.header['Ntot']
             c['pindex']=[mindex_ini,mindex_ini_fin]

@@ -95,7 +95,7 @@ class Analysis:
 
         return ret_com, ret_vom
 
-    def tdyn(self,mq=100,type=None,G='(kpc3)/(M_sun Gyr2)'):
+    def tdyn(self,mq=100,type=None,G='(kpc3)/(M_sun s2)'):
         """
         Calculate the dynamical time of a stystem as Tdyn=0.5*pi*Sqrt(Rh^3/(G*Mh)).
         where Rh is the radius that contains the fraction Mh=h*M of the mass.

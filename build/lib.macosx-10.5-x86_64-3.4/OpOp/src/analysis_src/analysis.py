@@ -95,7 +95,7 @@ class Analysis:
 
         return ret_com, ret_vom
 
-    def tdyn(self,mq=100,type=None,G='(kpc3)/(M_sun Gyr2)'):
+    def tdyn(self,mq=100,type=None,G='(kpc3)/(M_sun s2)'):
         """
         Calculate the dynamical time of a stystem as Tdyn=0.5*pi*Sqrt(Rh^3/(G*Mh)).
         where Rh is the radius that contains the fraction Mh=h*M of the mass.
@@ -137,7 +137,20 @@ class Analysis:
         return tdyn
 
     def softening_scale(self,mq=70,auto=True,r=None,dens=None,mass=None,kernel='Gadget'):
-
+        """
+        Calculate the optimal softening scale following Dehnen, 2012 eps=cost*a(dens)*N^-0.2. The output will be in unit
+        of r. If Auto==True, r and dens will be not considered.
+        :param mq: Mass fraction where calcualte the softening_scale.
+        :param auto: If True calculate the r-dens gride using the grid and Profile class
+                wit 512 points from 0.001*rq to 10*rq.
+        :param r: Array with the sampling radii.
+        :param dens: Array with the density at the sampling radii. Its unity need to be the same of mass/r^3
+        :param mass: Total mass of the system, the method will calculate in automatic the fraction mq/100*mass
+        :param kernel: Kernel to use. Different kernel have different constant C. The implemented kernels are:
+                        -spline: generic cubic spline (as in Dehnen, 2012)
+                        -Gadget: to calculate the softening_scale using the spline kernel of Gadget2
+        :return: the softening scale.
+        """
         opt_dict={'Gadget':0.698352, 'spline':0.977693}
         rq=self.qmass(mq)
 

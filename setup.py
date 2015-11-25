@@ -104,7 +104,7 @@ ext_modules=[df_c_ext,model_c_ext,genmod_c_ext]
 
 setup(
 		name='OpOpGadget',
-		version='0.1.7',
+		version='0.1.8',
 		author='Giuliano Iorio',
 		author_email='giuliano.iorio@unibo.it',
 		url='http://github.com/iogiul/OpOp',
