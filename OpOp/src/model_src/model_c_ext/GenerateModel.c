@@ -38,7 +38,7 @@ void v_gen(double const *particle_pot, int const *particle_pot_idx,  double cons
     pot=particle_pot[i];
 
 
-    while( v_tmp>1 || check<0 )
+    while( v_tmp>=1 || check<0 )
     {
         v1=2*genrand_real3()-1;
         v2=2*genrand_real3()-1;
@@ -48,7 +48,7 @@ void v_gen(double const *particle_pot, int const *particle_pot_idx,  double cons
         e=pot*(1-v_tmp*v_tmp);
 
 
-    if(v_tmp<=1)
+    if(v_tmp<1)
     {
 
         //Now we want to find the df(e), first

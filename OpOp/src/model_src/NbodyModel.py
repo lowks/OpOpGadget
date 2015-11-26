@@ -257,12 +257,12 @@ class NbodyModel():
 
 
 
-        while (v>1 or ch==0):
+        while (v>= 1 or ch==0):
             vx,vy,vz=np.random.uniform(-1,1,size=3)
             v=vx*vx+vy*vy+vz*vz
             e=pot*(1-v)
 
-            if v<=1:
+            if v<1:
                 u=np.random.random()
                 umax=df_func(e)/df_func(pot)
                 if u<=umax: ch=1
