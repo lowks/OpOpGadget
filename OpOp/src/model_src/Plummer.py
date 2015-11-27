@@ -25,6 +25,7 @@ class Plummer(Model):
             self.G=GG.value
 
         self._use_nparray=True
+        self.use_c==False
         self._densnorm=(3*Mtot)/(4*np.pi*rc*rc*rc)
         self._potnorm=self.G*Mtot
 
