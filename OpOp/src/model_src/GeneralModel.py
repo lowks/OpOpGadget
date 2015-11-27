@@ -9,7 +9,7 @@ from astropy.constants import G as conG
 
 class GeneralModel(Model.Model):
 
-    def __init__(self,R,dens,rc=1,Mmax=1, G='kpc3 / (M_sun s2)', denorm=True, use_c=False):
+    def __init__(self,R,dens,rc=1,Mmax=1, G='kpc km2 / (M_sun s2)', denorm=True, use_c=False):
         """
         The purpose of the general model is to start from a density law R-dens to build a galaxy model.
         Attenzione per come è creato il modello assume sempre che
@@ -50,6 +50,7 @@ class GeneralModel(Model.Model):
         self.mass_arr=np.empty_like(self.dens_arr,dtype=float,order='C')
         self.pot_arr=np.empty_like(self.dens_arr,dtype=float,order='C')
         self.use_c=use_c
+        self._use_nparray=False
 
         self._dens=UnivariateSpline(self.R,self.dens_arr, k=1, s=0, ext=1) #for R>rmax, dens=0
 

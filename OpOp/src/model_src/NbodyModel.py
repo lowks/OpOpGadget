@@ -171,7 +171,7 @@ class NbodyModel():
             if c['id']!=component['id']: ext_list.append(c['model'])
 
         if len(ext_list)==0: ext_list=None
-        print(ext_list)
+
 
         c_grid=grid(N=self.Ngrid, galaxy_model=component['model'], ext_pot_model=ext_list, type=self.kind, min=rc*self.xmin, max=rc*self.xmax )
         component['grid']=c_grid
