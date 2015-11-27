@@ -1,8 +1,8 @@
 import numpy as np
 from astropy.constants import G as conG
+from ..model_src.Model import Model
 
-
-class Plummer:
+class Plummer(Model):
 
     def __init__(self,rc,Mtot,G='kpc km2 / (M_sun s2)'):
         """
