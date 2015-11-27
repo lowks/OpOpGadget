@@ -75,9 +75,10 @@ class GeneralModel(Model.Model):
             self._pot_int=UnivariateSpline(self.R,self.pot_arr, k=1, s=0, ext=1)
 
 
+
         else:
             self._dm2=UnivariateSpline(self.R,self.R*self.R*self.dens_arr, k=2, s=0,ext=1)
-            self._dm=UnivariateSpline(self.R,self.R*self.dens_arr, k=2, s=0,ext=1)
+            self._dm=UnivariateSpline(self.R,self.R*self.dens_arr, k=1, s=0,ext=1)
 
 
             #Evaluate mass and pot on the R grid in input

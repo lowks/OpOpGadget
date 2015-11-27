@@ -90,9 +90,11 @@ def df_isotropic(dens,pot,egrid=None,normalize=False,use_c=False, check_negative
 '''
 
 
-def df_isotropic(dens,pot,use_c=True):
+def df_isotropic(dens,pot,**kwargs):
     """
-    Calculate the distribution function
+    Calculate the distribution function. This is scaled by some constant C, but this is not
+    important given that the df is always normalized to the value of the max energy
+
     :param dens: Array with density
     :param pot:  Array with potential
     :return:
@@ -101,7 +103,12 @@ def df_isotropic(dens,pot,use_c=True):
             -df_func: df function of variable e (interpolation of pot-df)
     """
 
+
+
     df=np.zeros(len(dens),dtype=float,order='C')
+
+    if 'use_c' in kwargs: use_c=kwargs['use_c']
+    else: use_c=True
 
     if use_c==True:
         pot=np.ascontiguousarray(pot,dtype=float)
@@ -141,6 +148,10 @@ def df_isotropic(dens,pot,use_c=True):
             df[i]=(inte[i+1]-inte[i])/(pot[i+1]-pot[i])
 
 
+
+    idx=np.isfinite(df)
+    pot=pot[idx]
+    df=df[idx]
     df_func=UnivariateSpline(pot[::-1],df[::-1],k=1,s=0,ext=1) #Set always df=0, outside the grid
 
     return pot,df,df_func
