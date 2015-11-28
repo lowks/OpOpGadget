@@ -18,13 +18,14 @@ class Plummer(Model.Model):
         :return:
         """
         self.rc=rc
-        self.Mtot=Mtot
+        self.Mmax=Mtot
         if isinstance(G,float) or isinstance(G,int): self.G=G
         else:
             GG=conG.to(G)
             self.G=GG.value
 
         self._use_nparray=True
+        self._analytic_radius=True
         self.use_c=False
         self._densnorm=(3*Mtot)/(4*np.pi*rc*rc*rc)
         self._potnorm=self.G*Mtot
@@ -39,7 +40,7 @@ class Plummer(Model.Model):
 
         x=R/self.rc
 
-        return self.Mtot*( (x*x*x) / (1+x*x)**(1.5)  )
+        return self.Mmax*( (x*x*x) / (1+x*x)**(1.5)  )
 
     def _evaluatepot(self,R):
 
@@ -56,10 +57,12 @@ class Plummer(Model.Model):
         :return: the energy grid, the df grid, the df function
         """
 
-        dffunc=lambda x: x**(3.5)*((24*np.sqrt(2))/(7*np.pi*np.pi*np.pi))*((self.rc*self.rc)/(self.G**5 * self.Mtot**4))
-        df_grid=e**(3.5)*((24*np.sqrt(2))/(7*np.pi*np.pi*np.pi))*((self.rc*self.rc)/(self.G**5 * self.Mtot**4))
+        dffunc=lambda x: x**(3.5)*((24*np.sqrt(2))/(7*np.pi*np.pi*np.pi))*((self.rc*self.rc)/(self.G**5 * self.Mmax**4))
+        df_grid=e**(3.5)*((24*np.sqrt(2))/(7*np.pi*np.pi*np.pi))*((self.rc*self.rc)/(self.G**5 * self.Mmax**4))
 
         return e,df_grid,dffunc
+
+    def radius(selfm):
 
 
 

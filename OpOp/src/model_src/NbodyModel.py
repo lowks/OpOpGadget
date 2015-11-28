@@ -331,6 +331,9 @@ class NbodyModel():
 
 
 
+
+
+
 if __name__=='main':
     R,mass_t,dens_t,pot_t=np.loadtxt('stellarcomp.txt',unpack=True,comments='#')
 
