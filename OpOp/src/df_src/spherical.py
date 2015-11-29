@@ -108,10 +108,7 @@ def df_isotropic(dens,pot,**kwargs):
     df=np.zeros(len(dens),dtype=float,order='C')
 
     if 'use_c' in kwargs: use_c=kwargs['use_c']
-    else: use_c=False
-
-
-    use_c=True
+    else: use_c=True
 
 
 
