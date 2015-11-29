@@ -108,10 +108,7 @@ def df_isotropic(dens,pot,**kwargs):
     df=np.zeros(len(dens),dtype=float,order='C')
 
     if 'use_c' in kwargs: use_c=kwargs['use_c']
-    else: use_c=False
-
-
-    use_c=True
+    else: use_c=True
 
 
 
@@ -169,7 +166,7 @@ def df_isotropic(dens,pot,**kwargs):
     df=df[idx]
     df_func=UnivariateSpline(pot[::-1],df[::-1],k=1,s=0,ext=1) #Set always df=0, outside the grid
 
-    print(df)
+
 
 
     return pot,df,df_func
