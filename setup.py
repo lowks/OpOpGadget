@@ -3,7 +3,7 @@ from distutils.core import Extension
 import sys
 import os
 import argparse
-import distutils
+#import distutils
 
 # Parse options; current options
 # --no-openmp: compile without OpenMP support
@@ -104,7 +104,7 @@ ext_modules=[df_c_ext,model_c_ext,genmod_c_ext]
 
 setup(
 		name='OpOpGadget',
-		version='0.1.10',
+		version='0.1.10.1',
 		author='Giuliano Iorio',
 		author_email='giuliano.iorio@unibo.it',
 		url='http://github.com/iogiul/OpOp',

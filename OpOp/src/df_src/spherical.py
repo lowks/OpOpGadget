@@ -108,17 +108,26 @@ def df_isotropic(dens,pot,**kwargs):
     df=np.zeros(len(dens),dtype=float,order='C')
 
     if 'use_c' in kwargs: use_c=kwargs['use_c']
-    else: use_c=True
+    else: use_c=False
+
+
+    use_c=True
+
+
 
     if use_c==True:
         pot=np.ascontiguousarray(pot,dtype=float)
         dens=np.ascontiguousarray(dens, dtype=float)
+
+
 
         #add to path to use relative path
         dll_name='df_c_ext/df_spherical.so'
         dllabspath = os.path.dirname(os.path.abspath(__file__)) + os.path.sep + dll_name
         lib = ct.CDLL(dllabspath)
         #add to path to use relativ path
+
+
 
         df_func=lib.df_spherical
         df_func.restype=None
@@ -135,6 +144,8 @@ def df_isotropic(dens,pot,**kwargs):
 
         for i in range(len(dens)-1):
             drpsi[i]=(dens[i+1]-dens[i])/(pot[i+1]-pot[i])
+        drpsi[-1]=drpsi[-2]
+
 
 
         for i in range(len(dens)-1):
@@ -143,9 +154,13 @@ def df_isotropic(dens,pot,**kwargs):
                 dqs=np.sqrt(pot[i]-pot[j+1])
                 inte[i]+=drpsi[j]*(dqs-dqi)
                 dqi=dqs
+        inte[-1]=inte[-2]
+
+
 
         for i in range(len(dens)-1):
             df[i]=(inte[i+1]-inte[i])/(pot[i+1]-pot[i])
+
 
 
 
@@ -153,6 +168,9 @@ def df_isotropic(dens,pot,**kwargs):
     pot=pot[idx]
     df=df[idx]
     df_func=UnivariateSpline(pot[::-1],df[::-1],k=1,s=0,ext=1) #Set always df=0, outside the grid
+
+    print(df)
+
 
     return pot,df,df_func
 

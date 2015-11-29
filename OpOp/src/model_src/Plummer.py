@@ -48,7 +48,7 @@ class Plummer(Model.Model):
 
         return self._potnorm/den
 
-    def df_plummer(self,dens,e):
+    def df_plummer(self,dens,e,**kwargs):
         """
         Analytic plummer density to be used to make a model.
 
@@ -61,8 +61,4 @@ class Plummer(Model.Model):
         df_grid=e**(3.5)*((24*np.sqrt(2))/(7*np.pi*np.pi*np.pi))*((self.rc*self.rc)/(self.G**5 * self.Mmax**4))
 
         return e,df_grid,dffunc
-
-    def radius(selfm):
-
-
 

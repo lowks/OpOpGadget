@@ -227,7 +227,7 @@ class NbodyModel():
         idxmin=component['pindex'][0]
 
 
-        pot_grid,df_grid,df_func=self.df(g.dgrid,g.tpgrid)
+        pot_grid,df_grid,df_func=self.df(g.dgrid,g.tpgrid,use_c=use_c)
 
 
         if use_c==True:
