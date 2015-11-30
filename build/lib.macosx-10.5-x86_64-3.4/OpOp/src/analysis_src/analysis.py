@@ -156,10 +156,10 @@ class Analysis:
         :return: the softening scale.
         """
         opt_dict={'Gadget':0.698352, 'spline':0.977693}
-        rq=self.qmass(mq)
+        rq=self.qmass(mq,type=type)
 
         if auto==True:
-            prof=Profile(self.p,Ngrid=512,xmin=0.001*rq,xmax=10*rq,kind='lin',type=type)
+            prof=Profile(self.p,Ngrid=512,xmin=0.01*rq,xmax=10*rq,kind='lin',type=type)
             r=prof.grid.gx
             dens=prof.dens
 
