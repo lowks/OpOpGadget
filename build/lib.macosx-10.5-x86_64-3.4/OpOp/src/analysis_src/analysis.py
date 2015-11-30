@@ -26,12 +26,16 @@ class Analysis:
         self.p.setrad()
         self.p.setvelt()
         self._set_pindex()
+
+        if 'single' in kwargs: single=kwargs['single']
+        else: single=True
+
         if auto_centre==True:
             if 'mq' in kwargs:
                 mq=kwargs['mq']
-                self.center(mq=mq)
+                self.center(mq=mq,single=single)
             else:
-                self.center()
+                self.center(single=single)
 
     def qmass(self,q,safe_mode=True,type=None):
         """
@@ -136,7 +140,7 @@ class Analysis:
 
         return tdyn
 
-    def softening_scale(self,mq=70,auto=True,r=None,dens=None,mass=None,kernel='Gadget'):
+    def softening_scale(self,mq=70,auto=True,r=None,dens=None,mass=None,kernel='Gadget',type=None):
         """
         Calculate the optimal softening scale following Dehnen, 2012 eps=cost*a(dens)*N^-0.2. The output will be in unit
         of r. If Auto==True, r and dens will be not considered.
@@ -155,7 +159,7 @@ class Analysis:
         rq=self.qmass(mq)
 
         if auto==True:
-            prof=Profile(self.p,Ngrid=512,xmin=0.001*rq,xmax=10*rq,kind='lin')
+            prof=Profile(self.p,Ngrid=512,xmin=0.001*rq,xmax=10*rq,kind='lin',type=type)
             r=prof.grid.gx
             dens=prof.dens
 
