@@ -107,7 +107,7 @@ setup(
 		version='0.2.1',
 		author='Giuliano Iorio',
 		author_email='giuliano.iorio@unibo.it',
-		url='http://github.com/iogiul/OpOp',
+		url='https://github.com/iogiul/OpOpGadget',
 		package_dir={'OpOp/src/': ''},
 		packages=['OpOp', 'OpOp/src/df_src','OpOp/src/grid_src','OpOp/src/model_src','OpOp/src/particle_src', 'OpOp/src/analysis_src' ,'OpOp/src/io_src','OpOp/src/utility_src'],
 		install_requires=['numpy>=1.9','scipy>=0.16','matplotlib','astropy>=1'],
